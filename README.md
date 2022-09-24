@@ -4,7 +4,6 @@
 1.此项目为二次开源，部分代码来源于原作者，在此感谢原作者对二次开源的支持；
 
 2.原作者giehub仓库地址:https://github.com/SuInk/resin-esp32c3
-
 博客地址:https://suink.cn/post/resin-esp32c3/#more
 
 # 2.效果演示
