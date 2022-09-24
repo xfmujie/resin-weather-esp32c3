@@ -47,6 +47,7 @@
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xAyOKS.png)
 **2.上述部分参数获取方法**
 * 原神米游社的cookie
+
 打开米游社官网并登录![enter image description here](https://s1.ax1x.com/2022/09/24/xA6uP1.jpg)
 按F12找到控制台，在控制台下方输入document.cookie，回车
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xAcT6f.png)
