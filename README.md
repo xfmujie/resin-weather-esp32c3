@@ -7,7 +7,7 @@
 博客地址:https://suink.cn/post/resin-esp32c3/#more
 
 # 2.效果演示
-![enter image description here](https://s1.ax1x.com/2022/09/24/xA09C8.jpg)
+![enter image description here](https://s1.ax1x.com/2022/09/24/xARlYd.jpg)
 
 # 3.材料准备
 -   合宙esp32c3开发板
