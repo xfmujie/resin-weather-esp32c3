@@ -67,8 +67,12 @@
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xAgdu8.png)
 
 ## 4.5接线图
+**1.开发板**
+![enter image description here](https://s1.ax1x.com/2022/09/24/xA2ixP.jpg)
 
 
+**2.TFT屏**
+![enter image description here](https://s1.ax1x.com/2022/09/24/xA2EqS.jpg)
 
 ## 4.6编译上传
 配置完上述步骤之后在arduino点击上传（向右箭头），上传完成即可！
