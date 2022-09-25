@@ -1,6 +1,5 @@
 /*
-   by SuInk uid 143177803 https://suink.cn
-   https://www.github.com/xfmujie
+   by SuInk uid 143177803 https://suink.cn & Mu-Jie https://github.com/xfmujie
 */
 
 #define BL 11
@@ -14,6 +13,8 @@
 #include <ArduinoJson.h>
 #include <string.h>
 #include <MD5Builder.h>
+#include <SPI.h>
+#include <TFT_eSPI.h>
 
 #include "Font.h"
 #include "BG_Top.h"
@@ -22,24 +23,23 @@
 #include "WIFI_G.h"
 #include "WIFI_R.h"
 
-#include <SPI.h>
-#include <TFT_eSPI.h>
-
-TFT_eSPI tft = TFT_eSPI();
-TFT_eSprite spr = TFT_eSprite(&tft);
-
-const char *ssid = "IQOO Neo5";                                                                // WIFI账户
-const char *password = "12345790ly";                                                           // WIFI密码
+/*参数配置*/
+const char *ssid = "IQOO Neo5";                                                                //WIFI账户
+const char *password = "12345790ly";                                                           //WIFI密码
 String uid = "101152522";                                                                      //原神uid
 String server = "cn_gf01";                                                                     //如果是b服，填cn_qd01
 String cookie = "cookie_token=aqnl9IBMyeJvI6j70GbpdPzqngKo1pd7tUiIwDOh; account_id=160338366"; //抓包获取的cookie
+String city = "鱼峰区";                                                                         //所在城市或地区
+String key = "4fc98b84aa6d816a7d42cc1fb260eadf";                                               //高德天气申请的key
 
-String url_01 = "https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote?server=" + server + "&role_id=" + uid;
-String url_02 = "https://restapi.amap.com/v3/weather/weatherInfo?city=鱼峰区&key=4fc98b84aa6d816a7d42cc1fb260eadf"; //高德天气api
 
+TFT_eSPI tft = TFT_eSPI();
+TFT_eSprite spr = TFT_eSprite(&tft);
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 8 * 3600, 60000);
 String day[] = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+String url_01 = "https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/dailyNote?server=" + server + "&role_id=" + uid;
+String url_02 = "https://restapi.amap.com/v3/weather/weatherInfo?city=" + city + "&key=" + key;
 int i = 25;
 void setup()
 {
@@ -54,17 +54,13 @@ void setup()
   tft.fillScreen(TFT_WHITE);
   tft.setTextColor(TFT_BLACK, TFT_WHITE);
   tft.loadFont(Font);
-  tft.pushImage(0, 22, 240, 121, (uint16_t *)gImage_BG_central);
-  tft.print("WIFI Connected...");
-  WiFi.begin(ssid, password); // ssid , password
-  /*
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(1000);
-    Serial.print(".");
-    tft.print(".");
 
-  }*/
+  /*背景图片*/
+  tft.pushImage(0, 22, 240, 121, (uint16_t *)gImage_BG_central);
+  tft.pushImage(0, 143, 240, 177, (uint16_t *)gImage_BG_bottom);
+
+  tft.print("wifi connected...");
+  WiFi.begin(ssid, password); // ssid , password
   timeClient.begin();
   delay(3000);
 
@@ -74,23 +70,17 @@ void loop()
 {
 
   if (WiFi.status() != WL_CONNECTED)
-    {
-      WiFi.begin(ssid, password);
-      delay(3000);
-    }
+  {
+    WiFi.begin(ssid, password);
+    delay(3000);
+  }
 
-  int Hour = timeClient.getHours();
-  int Min = timeClient.getMinutes();
-
-  String mhy_return_text;
-  String gd_return_text;
-  String yq_return_text;
   unsigned long timestamp = timeClient.getEpochTime() - 8 * 3600; // 时间戳
   String timestampstr = String(timestamp);
   String str1 = "salt=xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs&t=" + timestampstr + "&r=143177&b=&q=role_id=" + uid + "&server=" + server;
   HTTPClient http;
-  Serial.println(url_01);
 
+  /*请求原神接口*/
   http.begin(url_01);
   MD5Builder md5;
   md5.begin();
@@ -105,18 +95,18 @@ void loop()
   http.addHeader("Referer", "https://webstatic.mihoyo.com/");
   http.addHeader("Cookie", cookie);
   int website_return_code = http.GET(); //请求米哈游服务器
-  mhy_return_text = http.getString();
+  String mhy_return_text = http.getString();
   http.end();
-  // Serial.println(website_return_code);
-  // Serial.println(mhy_return_text);
+  Serial.println(mhy_return_text);
 
+  /*请求高德天气接口*/
   http.begin(url_02);
   int httpCode_02 = http.GET();
-  gd_return_text = http.getString();
+  String gd_return_text = http.getString();
   http.end();
   Serial.println(gd_return_text);
 
-  int Strnum = mhy_return_text.length() + gd_return_text.length() + yq_return_text.length();
+  int Strnum = mhy_return_text.length() + gd_return_text.length();//计算返回字符的总长度
   DynamicJsonDocument doc(Strnum);
 
   deserializeJson(doc, mhy_return_text); //将response转化为json格式
@@ -127,25 +117,25 @@ void loop()
   String zby_rec_day = obj["data"]["transformer"]["recovery_time"]["Day"];
   String zby_rec_hour = obj["data"]["transformer"]["recovery_time"]["Hour"];
   String zby_rec_min = obj["data"]["transformer"]["recovery_time"]["Minute"];
+  String current_home_coin = obj["data"]["current_home_coin"];
+  String max_home_coin = obj["data"][ "max_home_coin"];
 
-  int shuzhi = current_resin.toInt(); //将字符串变量转换为整形
-  String Which_day;
-  String str_hour;
-  String str_min;
-
-  int Rectime = resin_recovery_time / 60 + Hour * 60 + Min; //定义恢复时间
+  int Hour = timeClient.getHours();
+  int Min = timeClient.getMinutes();
+  int Rectime = resin_recovery_time / 60 + Hour * 60 + Min; //定义恢复时间（分钟数）
   int Rechour = Rectime / 60;
   int Recmin = Rectime % 60;
 
-  Which_day = (Rechour < 24) ? "今天" : "明天";
+  String Which_day = (Rechour < 24) ? "今天" : "明天";
   Rechour = (Rechour > 24) ? Rechour % 24 : Rechour;
-  str_hour += Rechour;
-  str_min += Recmin;
+  String str_hour = String(Rechour);
+  String str_min = String(Recmin);
   str_hour = (Rechour < 10) ? "0" + str_hour : str_hour;
   str_min = (Recmin < 10) ? "0" + str_min : str_min;
   str_hour = (current_resin != "null") ? str_hour : "??";
   str_min = (current_resin != "null") ? str_min : "??";
 
+  /*解析高德天气返回的json*/
   deserializeJson(doc, gd_return_text);
   JsonObject lives = doc["lives"][0];
   String weather = lives["weather"].as<String>();
@@ -155,7 +145,7 @@ void loop()
   String windpower = lives["windpower"].as<String>();
   windpower = (windpower == "≤3") ? "<=3" : windpower;
 
-
+  /*使用Sprite类绘制显示内容，可解决刷新闪屏问题*/
   spr.createSprite(240, 177);
   spr.pushImage(0, 0, 240, 177, (uint16_t *)gImage_BG_bottom);
   spr.loadFont(Font);
@@ -165,19 +155,20 @@ void loop()
   spr.drawString("湿度" + humidity + "  " + winddirection + "风" + windpower + "级", 22, 30);
 
   spr.setTextColor(tft.color565(157, 35, 172), TFT_WHITE);
-  spr.drawString(current_resin + "/160 树脂", 22, 77);
-  spr.drawString(Which_day + " " + str_hour + ":" + str_min + " 回满", 22, 100);
- if (extra_reward == "false")
-    spr.drawString("今日委托奖励未领！",22,123);
+  spr.drawString(current_resin + "/160 树脂", 22, 53);
+  spr.drawString(Which_day + " " + str_hour + ":" + str_min + " 回满", 22, 75);
+  if (zby_rec_hour == "0" && zby_rec_day == "0")
+    spr.drawString("质变仪 " + zby_rec_min + " 分钟", 22, 98);
+  else if (zby_rec_min == "0" && zby_rec_day == "0")
+    spr.drawString("质变仪 " + zby_rec_hour + " 小时", 22, 98);
   else
-    {
-      if(zby_rec_hour == "0" && zby_rec_day == "0")
-        spr.drawString("质变仪 " + zby_rec_min + " 分钟", 22, 123);
-      else if(zby_rec_min == "0" && zby_rec_day == "0")
-        spr.drawString("质变仪 " + zby_rec_hour + " 小时", 22, 123);
-      else
-        spr.drawString("质变仪 " + zby_rec_day + " 天", 22, 123);
-    }
+    spr.drawString("质变仪 " + zby_rec_day + " 天", 22, 98);
+
+  if (extra_reward == "false")
+    spr.drawString("今日委托奖励未领！", 22, 122);
+  else
+    spr.drawString("洞天宝钱" + current_home_coin + "/" + max_home_coin,22,122);
+
   spr.setTextColor(TFT_WHITE, TFT_PINK);
   spr.drawString("@昔枫沐杰", 68, 157);
   spr.pushSprite(0, 143);
@@ -191,7 +182,7 @@ void loop()
     Serial.println(timestamp);
     struct tm *ptm = gmtime((time_t *)&timestamp);
     String date;
-    
+
     date = (Hour < 8) ? String(ptm->tm_mday + 1) : String(ptm->tm_mday);
     String month = String(ptm->tm_mon + 1);
 
