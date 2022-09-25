@@ -63,7 +63,6 @@ void setup()
   WiFi.begin(ssid, password); // ssid , password
   timeClient.begin();
   delay(3000);
-
 }
 
 void loop()
@@ -106,7 +105,7 @@ void loop()
   http.end();
   Serial.println(gd_return_text);
 
-  int Strnum = mhy_return_text.length() + gd_return_text.length();//计算返回字符的总长度
+  int Strnum = mhy_return_text.length() + gd_return_text.length(); //计算返回字符的总长度
   DynamicJsonDocument doc(Strnum);
 
   deserializeJson(doc, mhy_return_text); //将response转化为json格式
@@ -118,7 +117,7 @@ void loop()
   String zby_rec_hour = obj["data"]["transformer"]["recovery_time"]["Hour"];
   String zby_rec_min = obj["data"]["transformer"]["recovery_time"]["Minute"];
   String current_home_coin = obj["data"]["current_home_coin"];
-  String max_home_coin = obj["data"][ "max_home_coin"];
+  String max_home_coin = obj["data"]["max_home_coin"];
 
   int Hour = timeClient.getHours();
   int Min = timeClient.getMinutes();
@@ -164,10 +163,7 @@ void loop()
   else
     spr.drawString("质变仪 " + zby_rec_day + " 天", 22, 98);
 
-  if (extra_reward == "false")
-    spr.drawString("今日委托奖励未领！", 22, 122);
-  else
-    spr.drawString("洞天宝钱" + current_home_coin + "/" + max_home_coin,22,122);
+  extra_reward == "false" ? spr.drawString("今日委托奖励未领！", 22, 122) : spr.drawString("洞天宝钱" + current_home_coin + "/" + max_home_coin, 22, 122);
 
   spr.setTextColor(TFT_WHITE, TFT_PINK);
   spr.drawString("@昔枫沐杰", 68, 157);
@@ -193,10 +189,7 @@ void loop()
     spr.drawString(month + "." + date, 3, 2);
     spr.drawString(timeClient.getFormattedTime(), 66, 2);
     spr.drawString(day[timeClient.getDay()], 174, 2);
-    if (WiFi.status() == WL_CONNECTED)
-      spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_G);
-    else
-      spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_R);
+    WiFi.status() == WL_CONNECTED ? spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_G) : spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_R);
     spr.pushSprite(0, 0);
     spr.unloadFont();
     spr.deleteSprite();
