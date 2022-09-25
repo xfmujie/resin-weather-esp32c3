@@ -45,18 +45,16 @@
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xAr2Px.png)
 
 
+
 * 打开库文件夹>>User_Setups>>Setup24_ST7789.h，配置如图
-![enter image description here](https://s1.ax1x.com/2022/09/24/xArvQS.png)
+![enter image description here](https://s1.ax1x.com/2022/09/25/xE6M1P.png)
 
-
-![enter image description here](https://s1.ax1x.com/2022/09/24/xAsiiq.png)
 
 保存关闭
 
 **2.字库配置**
 * 我已将需要显示的文字配置到Font.h字库，直接引用即可
 * 对于有添加文字的需求或者对自定义字库有兴趣的推荐看B站up主[DIY攻城狮](https://space.bilibili.com/393307558)的[使用Arduino TFT_eSPI库自定义中文字库 - 哔哩哔哩 (bilibili.com)](https://www.bilibili.com/read/cv14663437?spm_id_from=333.999.0.0)这一篇专栏教程
-* 
 ## 4.3 程序代码的配置
 **1.将main.cpp的代码复制到Arduino，配置相关参数**
 ![enter image description here](https://s1.ax1x.com/2022/09/25/xEsB80.png)
@@ -101,7 +99,6 @@
 
 ## 4.6编译上传
 配置完上述步骤之后在arduino点击上传（向右箭头），上传完成即可！
-
 
 
 
