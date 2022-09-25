@@ -31,7 +31,10 @@
 
 * 点击工具>>开发板管理，进入后搜索esp32，搜到开发板定义并安装（此步骤可能需要科学上网，不懂可以看看别人的环境搭建教程）
 * 点击项目>>加载库>>管理库，下载头文件所缺少的依赖库
-* 点击工具，配置开发板相关参数（端口视自己电脑端口分配而定）![enter image description here](https://s1.ax1x.com/2022/09/24/xAD8tx.png)
+* 点击工具，配置开发板相关参数（端口视自己电脑端口分配而定）
+![enter image description here](https://s1.ax1x.com/2022/09/25/xEyrFA.png)
+
+
 ## 4.2屏幕驱动库TFT_eSPI的配置
 **1.基本配置**
 * 打开库的文件夹找到User_Setup_Select.h并打开；
@@ -53,6 +56,7 @@
 **2.字库配置**
 * 我已将需要显示的文字配置到Font.h字库，直接引用即可
 * 对于有添加文字的需求或者对自定义字库有兴趣的推荐看B站up主[DIY攻城狮](https://space.bilibili.com/393307558)的[使用Arduino TFT_eSPI库自定义中文字库 - 哔哩哔哩 (bilibili.com)](https://www.bilibili.com/read/cv14663437?spm_id_from=333.999.0.0)这一篇专栏教程
+* 
 ## 4.3 程序代码的配置
 **1.将main.cpp的代码复制到Arduino，配置相关参数**
 ![enter image description here](https://s1.ax1x.com/2022/09/25/xEsB80.png)
