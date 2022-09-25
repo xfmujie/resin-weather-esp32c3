@@ -1,5 +1,5 @@
 # 原神树脂与天气实况桌面信息屏幕(esp32c3)
-基于合宙esp32c3的原神与天气桌面小屏幕
+
 # 1.项目说明
 1.此项目为二次开源，部分代码来源于原作者，在此感谢原作者对二次开源的支持；
 
@@ -26,7 +26,7 @@
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xADp6g.png)
 
 **2.IDE配置**
-* 打开Arduino IDE，点击文件 >>首选项，在附加开发板管理器网址填入`https://github.com/espressif/arduino-esp32/releases/download/2.0.2/package_esp32_index.json`
+* 打开Arduino IDE，点击文件 >>首选项，在附加开发板管理器网址填入`https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_dev_index.json`
 ![enter image description here](https://s1.ax1x.com/2022/09/24/xADF7n.png)
 
 * 点击工具>>开发板管理，进入后搜索esp32，搜到开发板定义并安装（此步骤可能需要科学上网，不懂可以看看别人的环境搭建教程）
