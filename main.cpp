@@ -32,7 +32,6 @@ String cookie = "cookie_token=***; account_id=***"; //抓包获取的cookie
 String city = "***";                                //所在城市或地区
 String key = "***";                                 //高德天气申请的key
 
-
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite spr = TFT_eSprite(&tft);
 WiFiUDP ntpUDP;
@@ -186,9 +185,9 @@ void loop()
     spr.pushImage(0, 0, 240, 22, (uint16_t *)gImage_BG_Top); //状态栏
     spr.loadFont(Font);
     spr.setTextColor(tft.color565(25, 113, 149), TFT_WHITE);
-    spr.drawString(month + "." + date, 3, 2);
-    spr.drawString(timeClient.getFormattedTime(), 66, 2);
-    spr.drawString(day[timeClient.getDay()], 174, 2);
+    spr.drawString(month + "." + date, 3, 2);//获取日期
+    spr.drawString(timeClient.getFormattedTime(), 66, 2);//获取时间
+    spr.drawString(day[timeClient.getDay()], 174, 2);//获取星期几
     WiFi.status() == WL_CONNECTED ? spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_G) : spr.pushImage(215, 0, 23, 23, (uint16_t *)gImage_WIFI_R);
     spr.pushSprite(0, 0);
     spr.unloadFont();
