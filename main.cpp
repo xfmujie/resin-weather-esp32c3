@@ -1,5 +1,5 @@
 /*
-   by SuInk uid 143177803 https://suink.cn & Mu-Jie https://github.com/xfmujie
+   by SuInk uid 143177803 https://suink.cn && Mu-Jie https://github.com/xfmujie
 */
 
 #define BL 11
@@ -24,13 +24,13 @@
 #include "WIFI_R.h"
 
 /*参数配置*/
-const char *ssid = "IQOO Neo5";                                                                //WIFI账户
-const char *password = "12345790ly";                                                           //WIFI密码
-String uid = "101152522";                                                                      //原神uid
-String server = "cn_gf01";                                                                     //如果是b服，填cn_qd01
-String cookie = "cookie_token=aqnl9IBMyeJvI6j70GbpdPzqngKo1pd7tUiIwDOh; account_id=160338366"; //抓包获取的cookie
-String city = "鱼峰区";                                                                         //所在城市或地区
-String key = "4fc98b84aa6d816a7d42cc1fb260eadf";                                               //高德天气申请的key
+const char *ssid = "***";                           //WIFI账户
+const char *password = "***";                       //WIFI密码
+String uid = "***";                                 //原神uid
+String server = "cn_gf01";                          //如果是b服，填cn_qd01
+String cookie = "cookie_token=***; account_id=***"; //抓包获取的cookie
+String city = "***";                                //所在城市或地区
+String key = "***";                                 //高德天气申请的key
 
 
 TFT_eSPI tft = TFT_eSPI();
