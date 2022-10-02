@@ -61,7 +61,7 @@ void setup()
   tft.print("wifi connected...");
   WiFi.begin(ssid, password); // ssid , password
   timeClient.begin();
-  delay(3000);
+  delay(1000);
 }
 
 void loop()
@@ -148,8 +148,8 @@ void loop()
   spr.pushImage(0, 0, 240, 177, (uint16_t *)gImage_BG_bottom);
   spr.loadFont(Font);
   spr.setTextColor(tft.color565(83, 108, 188), TFT_WHITE);
-  spr.drawString(weather, 22, 7);
-  spr.drawString(temperature + "度", 102, 7);
+  spr.drawString(temperature + "度", 22, 7);
+  spr.drawString(weather, 103, 7);
   spr.drawString("湿度" + humidity + "  " + winddirection + "风" + windpower + "级", 22, 30);
 
   spr.setTextColor(tft.color565(157, 35, 172), TFT_WHITE);
